@@ -43,3 +43,125 @@ This creates a sequence of maps consisting of only the solutions resulting in un
   ([name] (str "One for " name ", one for me.")))
 ```
 
+It's a typical multi-arity function, where the nullary arity calls the unary arity supplying the default argument.
+
+### Approach 2 - 79 submissions
+
+``` clojure
+(defn two-fer 
+  ([] "One for you, one for me.") 
+  ([name] (str "One for " name ", one for me.")))
+```
+
+Here instead of calling itself, the default result is supplied as its own string.
+
+### Approach 3 - 37 submissions
+
+``` clojure
+(defn two-fer 
+  ([] (two-fer "you")) 
+  ([name] (format "One for %s, one for me." name)))
+```
+
+It is like the first approach, but the variable is interpolated using `format` instead of concatenated with `str`.
+
+### Approach 4 - 29 submissions
+
+``` clojure
+(defn two-fer 
+  ([] (str "One for you, one for me.")) 
+  ([name] (str "One for " name ", one for me.")))
+```
+
+Lol, they're concatenating a single string... since this is functionally identical to the second approach, so it might be worth adding this to the representer as a rule.
+
+### Approach 5 - 25 submissions
+
+``` clojure
+(defn two-fer 
+  ([] "One for you, one for me.") 
+  ([name] (format "One for %s, one for me." name)))
+```
+
+This is like the second approach, but using `format` instead of `str`.
+
+### Approach 6 - 24 submissions
+
+``` clojure
+(defn two-fer 
+  ([name] (str "One for " name ", one for me.")) 
+  ([] (two-fer "you")))
+```
+
+This is like the first approach, but with the arities switched! This is another way we could improve the representer, by having it sort them.
+
+### Approach 7 - 23 submissions
+
+``` clojure
+(defn two-fer 
+  ([name] (str "One for " name ", one for me.")) 
+  ([] "One for you, one for me."))
+```
+
+See what's going on here?
+
+### Approach 8 - 11 submissions
+
+``` clojure
+(defn two-fer 
+  ([name] (str "One for " name ", one for me.")) 
+  ([] (str "One for you, one for me.")))
+```
+
+Yep. It's like permutations of ice cream flavors!
+
+### Approach 9 - 8 submissions
+
+``` clojure
+(defn two-fer 
+  ([name] (format "One for %s, one for me." name)) 
+  ([] "One for you, one for me."))
+```
+
+Build string with `format`; arities reversed
+
+### Approach 10 - 5 submissions
+
+``` clojure
+(defn- _two-fer [name] 
+  (str "One for " name ", one for me."))
+   
+(defn two-fer 
+  ([] (_two-fer "you")) 
+  ([name] (_two-fer name)))
+```
+
+This is a new one - we have a helper function that builds the string, allowing the main function to be simplified down to a dispatch function. While this may not seem like a huge advantage here, it is a useful pattern to understand for when dealing with more complex functions later.
+
+### Approach 11 - 4 submissions
+
+``` clojure
+(defn two-fer [& [name]] 
+  (format "One for %s, one for me." (or name "you")))
+```
+
+This one uses a variadic function, taking a variable number of arguments instead of writing a separate function body for each arity. It uses `or` to return `name` is it is non-nil, otherwise "you".
+
+Approach 12 - 3 submissions
+
+``` clojure
+(defn two-fer 
+  ([name] (format "One for %s, one for me." name)) 
+  ([] (two-fer "you")))
+```
+
+Format, reversed function bodies, one arity calls the other.
+
+### Approach 13 - 3 submissions
+
+``` clojure
+(defn two-fer [& name] 
+  (str "One for " (or (first name) "you") ", one for me."))
+```
+
+Like the variadic solution above, but building it with `str` instead of `format`, and the argument list is slightly different in that it isn't destructured.
