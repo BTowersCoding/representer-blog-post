@@ -4,7 +4,7 @@ What is a representer? You can read about them in [this article](https://exercis
 
 [![Representer video](https://img.youtube.com/vi/OJqN9adA_6Y/0.jpg)](http://www.youtube.com/embed/OJqN9adA_6Y)
 
-The idea is very simple: We receive hundreds of exercise submissions each week, many of which are quite similar. In order to produce the most valuable feedback we can from our mentors, we have a piece of software that analyzes the solutions and identifies *common approaches* used. It does this by normalizing for various things, namely whitespace, macroexpansion, and variable names.
+The idea is very simple: We receive hundreds of exercise submissions each week, many of which are quite similar. In order to provide the most valuable feedback we can from our mentors, we have a piece of software that analyzes the solutions and identifies *common approaches* used. It does this by normalizing for various things, namely whitespace, macroexpansion, and variable names.
 
 ## Clojure Representer implementation
 
